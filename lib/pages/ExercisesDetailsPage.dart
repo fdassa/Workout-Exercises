@@ -68,12 +68,23 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
             child: Html(
                 data: _exerciseDetails.description,
                 defaultTextStyle: Theme.of(context).textTheme.bodyText1)),
-        Row(children: [
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (_exerciseDetails.mainMuscles.isNotEmpty)
-            Column(children: _buildMainMuscles()),
+            Expanded(
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: _buildMainMuscles()))),
           if (_exerciseDetails.secondaryMuscles.isNotEmpty)
-            Column(children: _buildSecondaryMuscles()),
-        ])
+            Expanded(
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: _buildSecondaryMuscles()))),
+        ]),
+        if (_exerciseDetails.equipments.isNotEmpty) _buildEquipments()
       ],
     );
   }
@@ -98,7 +109,7 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
       style: Theme.of(context).textTheme.subtitle2,
     ));
     _exerciseDetails.mainMuscles.forEach((muscle) {
-      widgetList.add(Flexible(child: Text(muscle.name)));
+      widgetList.add(Text(muscle.name));
     });
     return widgetList;
   }
@@ -110,9 +121,22 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
       style: Theme.of(context).textTheme.subtitle2,
     ));
     _exerciseDetails.secondaryMuscles.forEach((muscle) {
-      widgetList.add(Flexible(child: Text(muscle.name)));
+      widgetList.add(Text(muscle.name));
     });
     return widgetList;
+  }
+
+  Widget _buildEquipments() {
+    var equipmentHtml = "<b>Equipments:</b> ";
+    _exerciseDetails.equipments.forEach((equipment) {
+      equipmentHtml = "$equipmentHtml ${equipment.name},";
+    });
+    equipmentHtml = equipmentHtml.substring(0, equipmentHtml.length - 1);
+    return Padding(
+        padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+        child: Html(
+            data: equipmentHtml,
+            defaultTextStyle: Theme.of(context).textTheme.bodyText1));
   }
 
   void _updateExerciseDetails(ExerciseDetails exerciseDetails) {
