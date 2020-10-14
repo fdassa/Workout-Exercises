@@ -104,24 +104,22 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
 
   List<Widget> _buildMainMuscles() {
     final List<Widget> widgetList = List.empty(growable: true);
-    widgetList.add(Text(
-      "Primary muscles",
-      style: Theme.of(context).textTheme.subtitle2,
-    ));
+    widgetList.add(
+        Text("Primary muscles", style: Theme.of(context).textTheme.subtitle2));
     _exerciseDetails.mainMuscles.forEach((muscle) {
-      widgetList.add(Text(muscle.name));
+      widgetList
+          .add(Text(muscle.name, style: Theme.of(context).textTheme.bodyText1));
     });
     return widgetList;
   }
 
   List<Widget> _buildSecondaryMuscles() {
     final List<Widget> widgetList = List.empty(growable: true);
-    widgetList.add(Text(
-      "Secondary muscles",
-      style: Theme.of(context).textTheme.subtitle2,
-    ));
+    widgetList.add(Text("Secondary muscles",
+        style: Theme.of(context).textTheme.subtitle2));
     _exerciseDetails.secondaryMuscles.forEach((muscle) {
-      widgetList.add(Text(muscle.name));
+      widgetList
+          .add(Text(muscle.name, style: Theme.of(context).textTheme.bodyText1));
     });
     return widgetList;
   }
