@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_exercises/blocs/CategoriesBloc.dart';
 import 'package:workout_exercises/models/Category.dart';
 import 'package:workout_exercises/models/CategoryListResponse.dart';
 import 'package:workout_exercises/pages/BasePageState.dart';
 import 'package:workout_exercises/pages/ExercisesByCategoryPage.dart';
-import 'package:workout_exercises/repository/Repository.dart';
 
 class CategoriesPage extends StatefulWidget {
   @override
@@ -12,19 +12,32 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends BasePageState<CategoriesPage> {
-  List<Category> _categories;
+  CategoriesBloc _bloc = CategoriesBloc();
 
   @override
-  void initState() {
-    title = 'Categories';
-    fetchCategories()
-        .then((exerciseListResponse) => _updateExercises(exerciseListResponse))
-        .catchError((error) => _handleError(error));
-    super.initState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Categories'),
+        ),
+        body: Container(
+            child: StreamBuilder<CategoryListResponse>(
+          stream: _bloc.stream,
+          initialData: null,
+          builder: (BuildContext context,
+              AsyncSnapshot<CategoryListResponse> snapshot) {
+            if (snapshot.hasData) {
+              return _onSuccess(snapshot.data.categories);
+            } else if (snapshot.hasError) {
+              return onError();
+            } else {
+              return onLoading();
+            }
+          },
+        )));
   }
 
-  @override
-  Widget onSuccess() {
+  Widget _onSuccess(List<Category> _categories) {
     return ListView.separated(
       itemCount: _categories.length,
       itemBuilder: (context, index) {
@@ -53,18 +66,5 @@ class _CategoriesPageState extends BasePageState<CategoriesPage> {
       MaterialPageRoute(
           builder: (context) => ExercisesByCategoryPage(category: category)),
     );
-  }
-
-  void _updateExercises(CategoryListResponse categoryListResponse) {
-    setState(() {
-      _categories = categoryListResponse.categories;
-      requestState = RequestState.success;
-    });
-  }
-
-  void _handleError(Exception error) {
-    setState(() {
-      requestState = RequestState.error;
-    });
   }
 }
