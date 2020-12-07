@@ -1,10 +1,12 @@
 import 'package:workout_exercises/models/ExerciseListResponse.dart';
 import 'package:workout_exercises/repository/Repository.dart';
 
-class ExercisesByCategoryBloc {
+import 'BaseBloc.dart';
+
+class ExercisesByCategoryBloc extends BaseBloc {
   Stream<ExerciseListResponse> stream;
 
   ExercisesByCategoryBloc(int categoryId) {
-    stream = new Stream.fromFuture(fetchFirstPageExercisesList(categoryId));
+    stream = new Stream.fromFuture(fetchFirstPageExercisesList(httpClient, categoryId));
   }
 }
