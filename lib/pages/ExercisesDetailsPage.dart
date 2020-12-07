@@ -10,6 +10,8 @@ import 'package:workout_exercises/models/ExerciseImagesResponse.dart';
 import 'package:workout_exercises/models/Muscles.dart';
 import 'package:workout_exercises/pages/BasePageState.dart';
 
+import '../WorkoutLocalizations.dart';
+
 class ExercisesDetailsPage extends StatefulWidget {
   ExercisesDetailsPage({@required this.exerciseId});
 
@@ -32,7 +34,7 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Exercise Details'),
+          title: Text(WorkoutLocalizations.of(context).exerciseDetails),
         ),
         body: Container(
             child: StreamBuilder<ExerciseDetails>(
@@ -134,8 +136,8 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
 
   List<Widget> _buildMainMuscles(List<Muscles> mainMuscles) {
     final List<Widget> widgetList = List.empty(growable: true);
-    widgetList.add(
-        Text("Primary muscles", style: Theme.of(context).textTheme.subtitle2));
+    widgetList.add(Text(WorkoutLocalizations.of(context).mainMuscles,
+        style: Theme.of(context).textTheme.subtitle2));
     mainMuscles.forEach((muscle) {
       widgetList
           .add(Text(muscle.name, style: Theme.of(context).textTheme.bodyText1));
@@ -145,7 +147,7 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
 
   List<Widget> _buildSecondaryMuscles(List<Muscles> secondaryMuscles) {
     final List<Widget> widgetList = List.empty(growable: true);
-    widgetList.add(Text("Secondary muscles",
+    widgetList.add(Text(WorkoutLocalizations.of(context).secondaryMuscles,
         style: Theme.of(context).textTheme.subtitle2));
     secondaryMuscles.forEach((muscle) {
       widgetList
@@ -155,7 +157,8 @@ class _ExercisesDetailsPageState extends BasePageState<ExercisesDetailsPage> {
   }
 
   Widget _buildEquipments(List<Equipment> equipments) {
-    var equipmentHtml = "<b>Equipments:</b> ";
+    var equipmentHtml =
+        "<b>${WorkoutLocalizations.of(context).equipments}</b> ";
     equipments.forEach((equipment) {
       equipmentHtml = "$equipmentHtml ${equipment.name},";
     });

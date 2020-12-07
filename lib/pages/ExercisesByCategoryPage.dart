@@ -6,6 +6,8 @@ import 'package:workout_exercises/models/ExerciseListResponse.dart';
 import 'package:workout_exercises/pages/BasePageState.dart';
 import 'package:workout_exercises/pages/ExercisesDetailsPage.dart';
 
+import '../WorkoutLocalizations.dart';
+
 class ExercisesByCategoryPage extends StatefulWidget {
   ExercisesByCategoryPage({@required this.category});
 
@@ -29,7 +31,7 @@ class _ExercisesByCategoryPageState extends BasePageState<ExercisesByCategoryPag
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('${widget.category.name} Exercises'),
+          title: Text('${widget.category.name}'),
         ),
         body: Container(
             child: StreamBuilder<ExerciseListResponse>(
@@ -55,7 +57,7 @@ class _ExercisesByCategoryPageState extends BasePageState<ExercisesByCategoryPag
         final Exercise exercise = exercises[index];
         return ListTile(
             title: Text(exercise.name),
-            subtitle: Text('Posted by: ${exercise.author}'),
+            subtitle: Text('${WorkoutLocalizations.of(context).postedBy} ${exercise.author}'),
             trailing: Icon(Icons.keyboard_arrow_right),
             onTap: () {
               _handleItemClick(exercise.id);

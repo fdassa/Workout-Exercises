@@ -8,6 +8,8 @@ import 'package:workout_exercises/models/CategoryListResponse.dart';
 import 'package:workout_exercises/pages/BasePageState.dart';
 import 'package:workout_exercises/pages/ExercisesByCategoryPage.dart';
 
+import '../WorkoutLocalizations.dart';
+
 class CategoriesPage extends StatefulWidget {
   CategoriesPage({@required this.flutterLocalNotificationsPlugin});
 
@@ -31,7 +33,7 @@ class _CategoriesPageState extends BasePageState<CategoriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Categories'),
+          title: Text(WorkoutLocalizations.of(context).categories),
         ),
         body: Container(
             child: StreamBuilder<CategoryListResponse>(
@@ -83,15 +85,19 @@ class _CategoriesPageState extends BasePageState<CategoriesPage> {
 
   Future<void> _showNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-            'your channel id', 'your channel name', 'your channel description',
+        AndroidNotificationDetails('1231213113', 'battery warning',
+            'battery warning notification channel',
             importance: Importance.max,
             priority: Priority.high,
             ticker: 'ticker');
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
-    await widget.flutterLocalNotificationsPlugin.show(0, 'Low battery',
-        'You have less than 25% battery left!', platformChannelSpecifics);
+    final localizations = WorkoutLocalizations.of(context);
+    await widget.flutterLocalNotificationsPlugin.show(
+        0,
+        localizations.lowBattery,
+        localizations.lowBatteryBody,
+        platformChannelSpecifics);
   }
 
   Future<void> _getBatteryLevel() async {
